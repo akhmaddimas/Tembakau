@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "files": [],
   "references": [
@@ -6,12 +5,3 @@
     { "path": "./tsconfig.node.json" }
   ]
 }
-=======
-{
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
-}
->>>>>>> cef4082ffbfe0d7b33f593e84acd505dc65021b9
