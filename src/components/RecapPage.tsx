@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Printer, Filter } from 'lucide-react';
-import { supabase } from '../lib/supabase';
-import type { Transaction } from '../lib/database.types';
+import { getTransactions } from '../lib/googleSheets';
+import type { Transaction } from '../lib/googleSheets';
 
 export default function RecapPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -41,15 +41,8 @@ export default function RecapPage() {
 
   const loadTransactions = async () => {
     try {
-      const { data, error } = await supabase
-        .from('transactions')
-        .select('*')
-        .order('tanggal', { ascending: false })
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      setTransactions(data || []);
+      const data = await getTransactions();
+      setTransactions(data);
     } catch (error) {
       console.error('Error loading transactions:', error);
     } finally {

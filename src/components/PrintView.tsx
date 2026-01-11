@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
-import type { Transaction, TransactionItem } from '../lib/database.types';
+import { getTransactionById, getTransactionItemsByTransactionId } from '../lib/googleSheets';
+import type { Transaction, TransactionItem } from '../lib/googleSheets';
 
 interface PrintViewProps {
   transactionId: string;
@@ -14,23 +14,11 @@ export default function PrintView({ transactionId }: PrintViewProps) {
   useEffect(() => {
     const loadTransaction = async () => {
       try {
-        const { data: transData, error: transError } = await supabase
-          .from('transactions')
-          .select('*')
-          .eq('id', transactionId)
-          .maybeSingle();
-
-        if (transError) throw transError;
-
-        const { data: itemsData, error: itemsError } = await supabase
-          .from('transaction_items')
-          .select('*')
-          .eq('transaction_id', transactionId);
-
-        if (itemsError) throw itemsError;
+        const transData = await getTransactionById(transactionId);
+        const itemsData = await getTransactionItemsByTransactionId(transactionId);
 
         setTransaction(transData);
-        setItems(itemsData || []);
+        setItems(itemsData);
       } catch (error) {
         console.error('Error loading transaction:', error);
       } finally {
