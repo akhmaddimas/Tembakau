@@ -1,7 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { Plus, Trash2, Save, Printer } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import type { TransactionInsert, TransactionItemInsert } from '../lib/database.types';
 
 interface ItemData {
   nama_item: string;
@@ -87,14 +86,14 @@ export default function TransactionForm() {
     try {
       const total = calculateTotal();
 
-      const transactionData: TransactionInsert = {
+      const transactionData = {
         tanggal,
         nama: nama.trim(),
         jenis,
         total
       };
 
-      const { data: transaction, error: transError } = await (supabase as any)
+      const { data: transaction, error: transError } = await supabase
         .from('transactions')
         .insert(transactionData)
         .select()
@@ -106,7 +105,7 @@ export default function TransactionForm() {
         throw new Error('Failed to create transaction');
       }
 
-      const itemsData: TransactionItemInsert[] = items.map(item => {
+      const itemsData = items.map(item => {
         const { total_timbang, berat_bersih, harga, subtotal } = calculateItem(item);
         return {
           transaction_id: transaction.id,
@@ -119,7 +118,7 @@ export default function TransactionForm() {
         };
       });
 
-      const { error: itemsError } = await (supabase as any)
+      const { error: itemsError } = await supabase
         .from('transaction_items')
         .insert(itemsData);
 

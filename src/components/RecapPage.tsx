@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Printer, Filter } from 'lucide-react';
-import { getTransactions } from '../lib/googleSheets';
-import type { Transaction } from '../lib/googleSheets';
+import { getTransactions } from '../lib/supabase';
+import type { Transaction } from '../lib/database.types';
 
 export default function RecapPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);

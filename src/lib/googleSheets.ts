@@ -43,7 +43,6 @@ export async function getTransactions(): Promise<Transaction[]> {
 
   if (data.length < 2) return []; // No data or only headers
 
-  const headers = data[0];
   const rows = data.slice(1);
 
   return rows.map(row => ({
@@ -61,7 +60,6 @@ export async function getTransactionItems(): Promise<TransactionItem[]> {
 
   if (data.length < 2) return []; // No data or only headers
 
-  const headers = data[0];
   const rows = data.slice(1);
 
   return rows.map(row => ({

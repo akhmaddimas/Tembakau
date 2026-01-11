@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getTransactionById, getTransactionItemsByTransactionId } from '../lib/googleSheets';
-import type { Transaction, TransactionItem } from '../lib/googleSheets';
+import { getTransactionById, getTransactionItemsByTransactionId } from '../lib/supabase';
+import type { Transaction, TransactionItem } from '../lib/database.types';
 
 interface PrintViewProps {
   transactionId: string;
